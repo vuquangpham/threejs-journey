@@ -1,0 +1,12 @@
+<%- include('../partials/head.ejs') %>
+
+<div class="site-content fl-center" data-template="404">
+    <div class="container">
+        <div class="site-title ta-center">
+            <h1><%- title.replaceAll('\n', '<br>'); %></h1>
+            <p><%- message; %></p>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/end.ejs') %>

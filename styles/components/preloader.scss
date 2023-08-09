@@ -1,0 +1,16 @@
+.preloader {
+  background: var(--color-primary);
+  font-size: var(--size-h2);
+
+  overflow: hidden;
+
+  span {
+    overflow: hidden;
+    display: inline-block;
+  }
+
+  &__text {
+    margin-bottom: 6rem;
+    line-height: 1.3;
+  }
+}

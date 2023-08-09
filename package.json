@@ -1,0 +1,64 @@
+{
+  "name": "boilp",
+  "version": "0.0.1",
+  "description": "Creating multiple pages of web applications on the fly.",
+  "main": "server.js",
+  "scripts": {
+    "backend:dev": "nodemon server.js",
+    "backend:build": "node server.js",
+    "frontend:dev": "webpack --config config/webpack.dev.js",
+    "frontend:watch": "webpack-dev-server --config config/webpack.dev.js",
+    "frontend:build": "webpack --config config/webpack.build.js",
+    "start": "concurrently --kill-others \"npm run frontend:watch\" \"npm run backend:dev\"",
+    "build": "npm run frontend:build && npm run backend:build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuquangpham/boilp.git"
+  },
+  "keywords": [
+    "expressjs",
+    "boilerplate",
+    "nodejs"
+  ],
+  "author": "Vu Pham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vuquangpham/boilp/issues"
+  },
+  "homepage": "https://github.com/vuquangpham/boilp#readme",
+  "devDependencies": {
+    "@babel/core": "^7.19.6",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.19.4",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^7.6.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "dotenv": "^16.0.3",
+    "file-loader": "^6.2.0",
+    "image-minimizer-webpack-plugin": "^3.8.1",
+    "mini-css-extract-plugin": "^2.6.1",
+    "node-sass": "^8.0.0",
+    "nodemon": "^2.0.20",
+    "postcss-loader": "^7.0.1",
+    "postcss-preset-env": "^7.8.2",
+    "sass": "^1.64.1",
+    "sass-loader": "^13.1.0",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.6",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "gsap": "^3.11.4",
+    "ip": "^2.0.0"
+  }
+}

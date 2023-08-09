@@ -1,0 +1,20 @@
+<%- include('../partials/head.ejs', {isHome: true}) %>
+
+<%
+const title = 'Boilp Template';
+%>
+
+<div class="site-content" data-template="home">
+    <div class="site-banner fl-center-v ps-relative">
+        <div class="site-banner__content boil-content">
+            <p><%= title; %></p>
+        </div>
+        <div class="site-banner__content site-banner__content--cursor ab-full fl-center-v">
+            <div class="boil-content">
+                <p><%= title; %></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/end.ejs') %>

@@ -1,0 +1,20 @@
+@import './base/reset.scss';
+
+// library
+@import './atomic/atomic';
+
+@import './utils/variables.css';
+@import './utils/mixins';
+@import './utils/responsive';
+
+@import './base/font';
+@import './base/base';
+@import './base/typo';
+
+// components
+@import './components/preloader';
+@import './components/aside';
+
+// pages
+@import './pages/home';
+@import './pages/404';

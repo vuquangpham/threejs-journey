@@ -1,0 +1,66 @@
+/// Definitions
+/// DO NOT EDIT!
+
+$version: "1.1.10";
+$info: ();
+
+// axes
+$axes: ("x": ("-left" "-right"), "y": ("-top" "-bottom"));
+
+// coordinates
+$coordinates: ("t":"top", "r":"right", "b":"bottom", "l":"left");
+
+// ignore
+$ignore_inherit_initial: justify-content flex-wrap flex-direction align-self align-items align-content object-fit;
+$ignore: (
+        inherit: $ignore_inherit_initial,
+        initial: $ignore_inherit_initial,
+);
+
+// replace prop
+$replace_prop: (
+        flex-start:start,
+        flex-end:end
+);
+
+// variables
+$variables: ();
+
+// breakpoints
+$breakpoints: (
+        "lg": 1180px,
+        "md": 1024px,
+        "sm": 768px,
+        "xs": 480px,
+);
+
+// font sizes
+$font-sizes: (
+        "values": 0 1 2 4 6 8 12 16 24 32 48 64 96 128,
+);
+
+// font family
+$fonts: ();
+
+// colors
+$colors: ();
+
+// vertical spacing
+$vertical_spacing: (
+        "values": 0
+);
+
+// horizontal spacing
+//$horizontal_spacing: (
+//        "values": 0 100 200,
+//        "lg":0 50 200,
+//        "md":0 20 100,
+//);
+
+// coordinate values (for position top, right, bottom left)
+$coordinate_values: (
+        "values": 0 50% 100%
+);
+
+// aspect ratio
+$aspect_ratio: ();
