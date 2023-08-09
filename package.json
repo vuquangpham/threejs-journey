@@ -1,7 +1,7 @@
 {
-  "name": "boilp",
+  "name": "threejs-journey",
   "version": "0.0.1",
-  "description": "Creating multiple pages of web applications on the fly.",
+  "description": "Save my learning journey",
   "main": "server.js",
   "scripts": {
     "backend:dev": "nodemon server.js",
@@ -14,19 +14,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vuquangpham/boilp.git"
+    "url": "git+https://github.com/vuquangpham/threejs-journey.git"
   },
   "keywords": [
-    "expressjs",
-    "boilerplate",
-    "nodejs"
+    "threejs"
   ],
   "author": "Vu Pham",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vuquangpham/boilp/issues"
+    "url": "https://github.com/vuquangpham/threejs-journey/issues"
   },
-  "homepage": "https://github.com/vuquangpham/boilp#readme",
+  "homepage": "https://github.com/vuquangpham/threejs-journey#readme",
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/plugin-proposal-class-properties": "^7.18.6",

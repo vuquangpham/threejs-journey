@@ -1,6 +1,6 @@
-# Boilp - EJS template
+# Three.js Journey
 
-> Creating multiple pages of web applications on the fly 💨
+> Save my learning journey 👀
 
 ## Deployment
 

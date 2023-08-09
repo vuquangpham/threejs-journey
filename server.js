@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
     // page title
-    app.locals.pageTitle = 'Pages Template';
+    app.locals.pageTitle = 'Three.js Journey';
 
     // preloader
     // app.locals.preloader = {

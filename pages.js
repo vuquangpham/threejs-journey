@@ -1,11 +1,11 @@
 const {createPagesPrototype} = require("./utils/utils");
 module.exports = createPagesPrototype([
     // {
-    //     title: 'WebGL Fundamentals',
-    //     base: 'webgl',
+    //     title: 'Basics',
+    //     base: 'basic',
     //     pages: [
     //         {
-    //             title: 'Drawing a single point'
+    //             title: ''
     //         },
     //     ]
     // },
