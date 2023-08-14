@@ -6,11 +6,16 @@
   "scripts": {
     "backend:dev": "nodemon server.js",
     "backend:build": "node server.js",
-    "frontend:dev": "webpack --config config/webpack.dev.js",
-    "frontend:watch": "webpack-dev-server --config config/webpack.dev.js",
+    "frontend:dev": "webpack-dev-server --config config/webpack.dev.js",
     "frontend:build": "webpack --config config/webpack.build.js",
-    "start": "concurrently --kill-others \"npm run frontend:watch\" \"npm run backend:dev\"",
-    "build": "npm run frontend:build && npm run backend:build"
+    "start": "npm run backend:dev & npm run frontend:dev",
+    "build": "npm run backend:build & npm run frontend:build"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "public",
+      "app"
+    ]
   },
   "repository": {
     "type": "git",
@@ -20,7 +25,7 @@
     "threejs"
   ],
   "author": "Vu Pham",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vuquangpham/threejs-journey/issues"
   },
@@ -31,7 +36,7 @@
     "@babel/preset-env": "^7.19.4",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.2.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
