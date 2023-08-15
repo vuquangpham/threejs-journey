@@ -1,12 +1,12 @@
 const {createPagesPrototype} = require("./utils/utils");
 module.exports = createPagesPrototype([
-    // {
-    //     title: 'Basics',
-    //     base: 'basic',
-    //     pages: [
-    //         {
-    //             title: ''
-    //         },
-    //     ]
-    // },
+    {
+        title: 'Basics',
+        base: 'basic',
+        pages: [
+            {
+                title: 'Three Basic'
+            },
+        ]
+    },
 ]);

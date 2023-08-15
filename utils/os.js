@@ -34,18 +34,13 @@ const createDirectory = (path) => {
 const copyFile = (source = '', destination = '') => {
     return new Promise((resolve, reject) => {
         // destination already exist => not run
-        if(fs.existsSync(destination)) resolve('The destination has already existed yet');
+        if(fs.existsSync(destination)) return resolve('The destination has already existed yet');
 
         // source doesn't exist
-        if(!fs.existsSync(source)) resolve('The source doesn\'t exist');
+        if(!fs.existsSync(source)) return resolve('The source doesn\'t exist');
 
         // clone file
-        fs.copyFile(source, destination, (err) => {
-            if(err){
-                reject(err);
-            }
-            resolve();
-        });
+        fs.copyFile(source, destination, (err) => err ? reject(err) : resolve);
     });
 };
 

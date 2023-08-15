@@ -4,18 +4,12 @@
   "description": "Save my learning journey",
   "main": "server.js",
   "scripts": {
-    "backend:dev": "nodemon server.js",
+    "backend:dev": "nodemon --ignore public/ --ignore app/ server.js",
     "backend:build": "node server.js",
     "frontend:dev": "webpack-dev-server --config config/webpack.dev.js",
     "frontend:build": "webpack --config config/webpack.build.js",
     "start": "npm run backend:dev & npm run frontend:dev",
     "build": "npm run backend:build & npm run frontend:build"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "public",
-      "app"
-    ]
   },
   "repository": {
     "type": "git",
