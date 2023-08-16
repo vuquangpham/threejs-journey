@@ -1,10 +1,41 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
 
+// Textures
+import colorTexture from './textures/door/color.jpg';
+import alphaTexture from './textures/door/alpha.jpg';
+import heightTexture from './textures/door/height.jpg';
+import normalTexture from './textures/door/normal.jpg';
+import ambientTexture from './textures/door/ambientOcclusion.jpg';
+import metalnessTexture from './textures/door/metalness.jpg';
+import roughnessTexture from './textures/door/roughness.jpg';
+
 export default class{
     constructor({element}){
         this.element = element;
+
+        this.createTexture();
         this.init();
+    }
+
+    createTexture(){
+        // for control the process of all loading assets
+        const loadingManger = new THREE.LoadingManager();
+        const textureLoaderWithLoadingManager = new THREE.TextureLoader(loadingManger);
+
+        // for each asset
+        // const textureLoader = new THREE.TextureLoader();
+
+        /**
+         * Textures
+         * */
+        this.colorTexture = textureLoaderWithLoadingManager.load(colorTexture);
+        this.alphaTexture = textureLoaderWithLoadingManager.load(alphaTexture);
+        this.heightTexture = textureLoaderWithLoadingManager.load(heightTexture);
+        this.normalTexture = textureLoaderWithLoadingManager.load(normalTexture);
+        this.ambientTexture = textureLoaderWithLoadingManager.load(ambientTexture);
+        this.metalnessTexture = textureLoaderWithLoadingManager.load(metalnessTexture);
+        this.roughnessTexture = textureLoaderWithLoadingManager.load(roughnessTexture);
     }
 
     init(){
@@ -16,7 +47,7 @@ export default class{
 
         // object
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({color: 'red'});
+        const material = new THREE.MeshBasicMaterial({map: this.colorTexture});
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
