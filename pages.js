@@ -7,6 +7,9 @@ module.exports = createPagesPrototype([
             {
                 title: 'Three Basic'
             },
+            {
+                title: 'Geometries'
+            },
         ]
     },
 ]);
