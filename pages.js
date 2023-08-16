@@ -10,6 +10,9 @@ module.exports = createPagesPrototype([
             {
                 title: 'Geometries'
             },
+            {
+                title: 'Texture'
+            }
         ]
     },
 ]);
