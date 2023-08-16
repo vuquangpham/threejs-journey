@@ -11,14 +11,6 @@ export default class{
         // canvas
         const canvas = document.querySelector('canvas#basic');
 
-        // cursor
-        // const cursor = {x: 0, y: 0};
-        // canvas.addEventListener('mousemove', (e) => {
-        //     cursor.x = e.offsetX;
-        //     cursor.y = e.offsetY;
-        // });
-
-
         // scene
         const scene = new THREE.Scene();
 
@@ -30,14 +22,12 @@ export default class{
 
         // Sizes
         const sizes = {
-            width: 800,
-            height: 600
+            width: window.innerWidth,
+            height: window.innerHeight
         };
 
         // camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-        // const aspectRatio = sizes.width / sizes.height
-        // const camera = new THREE.OrthographicCamera(- 1 * aspectRatio, 1 * aspectRatio, 1, - 1, 0.1, 100)
         camera.position.z = 3;
         scene.add(camera);
 
@@ -50,22 +40,12 @@ export default class{
             canvas: canvas
         });
         renderer.setSize(sizes.width, sizes.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         // update the frame
         const render = () => {
-            // calculate the distance
-            // const deltaX = cursor.x / sizes.width - 0.5;
-            // const deltaY = cursor.y / sizes.height - 0.5;
-
-            // update the position
-            // camera.position.x = deltaX * 10;
-            // camera.position.y = deltaY * 10;
-
             // update the controls
             controls.update();
-
-            // update the camera
-            // camera.lookAt(mesh.position);
 
             // render
             renderer.render(scene, camera);
@@ -74,6 +54,20 @@ export default class{
             window.requestAnimationFrame(render);
         };
         render();
+
+        // handle resize
+        window.addEventListener('resize', () => {
+            sizes.width = window.innerWidth;
+            sizes.height = window.innerHeight;
+
+            // update the camera
+            camera.aspect = sizes.width / sizes.height;
+            camera.updateProjectionMatrix();
+
+            // update the render
+            renderer.setSize(sizes.width, sizes.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
     }
 
     // for destroy this script when navigating between each page
