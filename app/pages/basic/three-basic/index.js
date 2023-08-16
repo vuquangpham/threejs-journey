@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {OrbitControls} from "three/addons/controls/OrbitControls";
 
 export default class{
     constructor({element}){
@@ -11,11 +12,11 @@ export default class{
         const canvas = document.querySelector('canvas#basic');
 
         // cursor
-        const cursor = {x: 0, y: 0};
-        canvas.addEventListener('mousemove', (e) => {
-            cursor.x = e.offsetX;
-            cursor.y = e.offsetY;
-        });
+        // const cursor = {x: 0, y: 0};
+        // canvas.addEventListener('mousemove', (e) => {
+        //     cursor.x = e.offsetX;
+        //     cursor.y = e.offsetY;
+        // });
 
 
         // scene
@@ -34,9 +35,15 @@ export default class{
         };
 
         // camera
-        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+        // const aspectRatio = sizes.width / sizes.height
+        // const camera = new THREE.OrthographicCamera(- 1 * aspectRatio, 1 * aspectRatio, 1, - 1, 0.1, 100)
         camera.position.z = 3;
         scene.add(camera);
+
+        // controls
+        const controls = new OrbitControls(camera, canvas);
+        controls.enableDamping = true;
 
         // render
         const renderer = new THREE.WebGLRenderer({
@@ -47,14 +54,18 @@ export default class{
         // update the frame
         const render = () => {
             // calculate the distance
-            const deltaX = cursor.x / sizes.width - 0.5;
-            const deltaY = cursor.y / sizes.height - 0.5;
+            // const deltaX = cursor.x / sizes.width - 0.5;
+            // const deltaY = cursor.y / sizes.height - 0.5;
 
             // update the position
-            camera.position.x = deltaX * 10;
-            camera.position.y = deltaY * 10;
+            // camera.position.x = deltaX * 10;
+            // camera.position.y = deltaY * 10;
+
+            // update the controls
+            controls.update();
+
             // update the camera
-            camera.lookAt(mesh.position);
+            // camera.lookAt(mesh.position);
 
             // render
             renderer.render(scene, camera);
