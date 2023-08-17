@@ -39,6 +39,9 @@ export default class{
     }
 
     init(){
+        // Start of the code
+        THREE.ColorManagement.enabled = false;
+
         // canvas
         const canvas = document.querySelector('canvas#webgl');
 
@@ -72,6 +75,9 @@ export default class{
         });
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // After instantiating the renderer
+        renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
         // update the frame
         const render = () => {
