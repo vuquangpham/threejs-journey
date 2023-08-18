@@ -15,6 +15,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Material'
+            },
+            {
+                title: '3D Text'
             }
         ]
     },

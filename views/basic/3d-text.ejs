@@ -1,0 +1,12 @@
+<%- include('../partials/head.ejs') %>
+
+<div class="site-content" data-template="<%= base; %>" data-page="<%= pageId; %>">
+    <style>
+        body {
+            overflow:hidden;
+        }
+    </style>
+    <canvas class="ps-fixed t0 l0" id="webgl"></canvas>
+</div>
+
+<%- include('../partials/end.ejs') %>
