@@ -9,7 +9,7 @@ export default class{
 
     init(){
         // canvas
-        const canvas = document.querySelector('canvas#basic');
+        const canvas = document.querySelector('canvas#webgl');
 
         // scene
         const scene = new THREE.Scene();

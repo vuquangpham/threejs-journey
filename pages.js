@@ -12,6 +12,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Texture'
+            },
+            {
+                title: 'Material'
             }
         ]
     },
