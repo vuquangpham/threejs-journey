@@ -1,20 +1,12 @@
 <%- include('../partials/head.ejs', {isHome: true}) %>
 
-<%
-const title = 'Three.js Journey';
-%>
-
 <div class="site-content" data-template="home">
-    <div class="site-banner fl-center-v ps-relative">
-        <div class="site-banner__content boil-content">
-            <p><%= title; %></p>
-        </div>
-        <div class="site-banner__content site-banner__content--cursor ab-full fl-center-v">
-            <div class="boil-content">
-                <p><%= title; %></p>
-            </div>
-        </div>
-    </div>
+    <style>
+        body {
+            overflow:hidden;
+        }
+    </style>
+    <canvas class="ps-fixed t0 l0" id="webgl"></canvas>
 </div>
 
 <%- include('../partials/end.ejs') %>
