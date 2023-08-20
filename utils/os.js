@@ -32,7 +32,7 @@ const createDirectory = (path) => {
  * @return {Promise}
  * */
 const copyFile = (source = '', destination = '') => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         // destination already exist => not run
         if(fs.existsSync(destination)) return resolve('The destination has already existed yet');
 
@@ -40,7 +40,7 @@ const copyFile = (source = '', destination = '') => {
         if(!fs.existsSync(source)) return resolve('The source doesn\'t exist');
 
         // clone file
-        fs.copyFile(source, destination, (err) => err ? reject(err) : resolve);
+        fs.copyFile(source, destination, (err) => err ? resolve(err.message) : resolve(true));
     });
 };
 
