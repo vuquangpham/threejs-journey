@@ -21,4 +21,13 @@ module.exports = createPagesPrototype([
             }
         ]
     },
+    {
+        title: 'Classic Techniques',
+        base: 'technique',
+        pages: [
+            {
+                title: 'Lights'
+            },
+        ]
+    },
 ]);
