@@ -21,6 +21,9 @@ export default class Home extends Page{
         // scene
         const scene = new THREE.Scene();
 
+        // geometries
+        const geometries = [];
+
         // font
         const fontLoader = new FontLoader();
         fontLoader.load(
@@ -54,11 +57,10 @@ export default class Home extends Page{
                     donut.position.y = (Math.random() - 0.5) * 10;
                     donut.position.z = (Math.random() - 0.5) * 10;
 
-                    donut.rotation.x = Math.random() * Math.PI;
-                    donut.rotation.y = Math.random() * Math.PI;
-
                     const scale = Math.random();
                     donut.scale.set(scale, scale, scale);
+
+                    geometries.push(donut);
                 }
             }
         );
@@ -85,8 +87,17 @@ export default class Home extends Page{
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+        const clock = new THREE.Clock();
+
         // update the frame
         const render = () => {
+            const elapsedTime = clock.getElapsedTime();
+
+            geometries.forEach(geometry => {
+                geometry.rotation.x += Math.random() * Math.PI * 0.005;
+                geometry.rotation.y += Math.random() * Math.PI * 0.005;
+            });
+
             // update the controls
             controls.update();
 
