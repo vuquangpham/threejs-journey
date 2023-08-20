@@ -35,10 +35,16 @@ const createJsBase = (appPath, baseName, pageId) => {
             const defaultTemplateDirectory = path.join(baseDirectory, '..', 'template');
 
             // create index.js file
-            copyFile(path.join(defaultTemplateDirectory, 'index.js'), path.join(baseDirectory, 'index.js'));
+            copyFile(path.join(defaultTemplateDirectory, 'index.js'), path.join(baseDirectory, 'index.js'))
+                .then(result => {
+                    if(result === true) return;
+                    console.log(result);
+                });
 
             // create template.js file
-            await copyFile(path.join(defaultTemplateDirectory, 'template.js'), path.join(baseDirectory, 'template.js'));
+            const result = await copyFile(path.join(defaultTemplateDirectory, 'template.js'), path.join(baseDirectory, 'template.js'));
+            if(result === true) return;
+            console.log(result);
         })
         .finally(() => {
             // create pageId folder
@@ -46,7 +52,11 @@ const createJsBase = (appPath, baseName, pageId) => {
             createDirectory(pageIdDirectory);
 
             // create pageId file
-            copyFile(path.join(baseDirectory, 'template.js'), path.join(pageIdDirectory, 'index.js'));
+            copyFile(path.join(baseDirectory, 'template.js'), path.join(pageIdDirectory, 'index.js'))
+                .then(result => {
+                    if(result === true) return;
+                    console.log(result);
+                });
         });
 };
 
@@ -69,11 +79,18 @@ const createEngineBase = (appPath, baseName, pageId) => {
 
             // template path
             const defaultTemplateDirectory = path.join(baseDirectory, '..', 'template');
-            await copyFile(path.join(defaultTemplateDirectory, 'template.ejs'), path.join(baseDirectory, 'template.ejs'));
+            const result = await copyFile(path.join(defaultTemplateDirectory, 'template.ejs'), path.join(baseDirectory, 'template.ejs'));
+            if(result === true) return;
+            console.log(result);
+
         })
         .finally(() => {
             // create pageId file
-            copyFile(path.join(baseDirectory, 'template.ejs'), path.join(baseDirectory, pageId + '.ejs'));
+            copyFile(path.join(baseDirectory, 'template.ejs'), path.join(baseDirectory, pageId + '.ejs'))
+                .then(result => {
+                    if(result === true) return;
+                    console.log(result);
+                });
         });
 };
 
