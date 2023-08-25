@@ -26,7 +26,7 @@ module.exports = createPagesPrototype([
         base: 'technique',
         pages: [
             {
-                title: 'Lights'
+                title: 'Shadows'
             },
         ]
     },

@@ -20,10 +20,41 @@ export default class{
          * Lights
          */
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        // scene.add(ambientLight);
+        scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3);
+        const pointLight = new THREE.PointLight(0xffffff, 5);
+        pointLight.position.x = 1;
+        pointLight.position.y = 1.5;
+        // scene.add(pointLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        directionalLight.position.x = 2;
+
+        // shadows
+        directionalLight.castShadow = true;
+        directionalLight.shadow.camera.near = 1;
+        directionalLight.shadow.camera.far = 6;
+        directionalLight.shadow.camera.top = 1;
+        directionalLight.shadow.camera.bottom = -1;
+        directionalLight.shadow.camera.left = -1;
+        directionalLight.shadow.camera.right = 1;
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+
         scene.add(directionalLight);
+
+        // helper
+        scene.add(new THREE.DirectionalLightHelper(directionalLight));
+        scene.add(new THREE.CameraHelper(directionalLight.shadow.camera));
+
+        // shadows
+        pointLight.castShadow = true;
+        pointLight.shadow.mapSize.width = 1024;
+        pointLight.shadow.mapSize.height = 1024;
+        pointLight.shadow.camera.fov = 60;
+
+        const axesHelper = new THREE.AxesHelper();
+        scene.add(axesHelper);
 
         /**
          * Objects
@@ -37,27 +68,17 @@ export default class{
             new THREE.SphereGeometry(0.5, 32, 32),
             material
         );
-        sphere.position.x = -1.5;
-
-        const cube = new THREE.Mesh(
-            new THREE.BoxGeometry(0.75, 0.75, 0.75),
-            material
-        );
-
-        const torus = new THREE.Mesh(
-            new THREE.TorusGeometry(0.3, 0.2, 32, 64),
-            material
-        );
-        torus.position.x = 1.5;
+        sphere.castShadow = true;
 
         const plane = new THREE.Mesh(
             new THREE.PlaneGeometry(5, 5),
             material
         );
         plane.rotation.x = -Math.PI * 0.5;
-        plane.position.y = -0.65;
+        plane.position.y = -0.5;
+        plane.receiveShadow = true;
 
-        scene.add(sphere, cube, torus, plane);
+        scene.add(sphere, plane);
 
         // Sizes
         const sizes = {
@@ -67,9 +88,8 @@ export default class{
 
         // camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-        camera.position.x = 1;
         camera.position.y = 1;
-        camera.position.z = 2;
+        camera.position.z = 3;
         scene.add(camera);
 
         // controls
@@ -84,20 +104,14 @@ export default class{
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
+        // shadows
+        renderer.shadowMap.enabled = true;
+
         const clock = new THREE.Clock();
 
         // update the frame
         const render = () => {
-            const elapsedTime = clock.getElapsedTime();
-
             // Update objects
-            sphere.rotation.y = 0.1 * elapsedTime;
-            cube.rotation.y = 0.1 * elapsedTime;
-            torus.rotation.y = 0.1 * elapsedTime;
-
-            sphere.rotation.x = 0.15 * elapsedTime;
-            cube.rotation.x = 0.15 * elapsedTime;
-            torus.rotation.x = 0.15 * elapsedTime;
 
             // update the controls
             controls.update();
