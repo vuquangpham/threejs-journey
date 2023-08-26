@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
+import GUI from 'lil-gui';
 
 export default class{
     constructor({element}){
@@ -62,6 +63,10 @@ export default class{
             // Material
         const material = new THREE.MeshStandardMaterial();
         material.roughness = 0.4;
+
+        const gui = new GUI();
+        gui.add(material, 'roughness', 0.1, 1, 0.05);
+        gui.add(material, 'metalness', 0, 1, 0.05);
 
         // Objects
         const sphere = new THREE.Mesh(
