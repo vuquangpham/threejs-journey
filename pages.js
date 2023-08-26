@@ -28,6 +28,9 @@ module.exports = createPagesPrototype([
             {
                 title: 'Shadows'
             },
+            {
+                title: 'Haunted House'
+            }
         ]
     },
 ]);
