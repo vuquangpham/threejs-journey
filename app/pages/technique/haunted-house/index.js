@@ -19,8 +19,6 @@ export default class{
 
         // scene
         const scene = new THREE.Scene();
-        const axesHelper = new THREE.AxesHelper(10);
-        scene.add(axesHelper);
 
         /**
          * Textures
@@ -147,11 +145,29 @@ export default class{
             grave.rotation.z = (Math.random() - 0.5) * 0.4;
             grave.rotation.y = (Math.random() - 0.5) * 0.4;
 
+            grave.castShadow = true;
+
             // Add to the graves container
             graves.add(grave);
         }
 
         // Floor
+
+        grassColorTexture.repeat.set(8, 8);
+        grassAmbientOcclusionTexture.repeat.set(8, 8);
+        grassNormalTexture.repeat.set(8, 8);
+        grassRoughnessTexture.repeat.set(8, 8);
+
+        grassColorTexture.wrapS = THREE.RepeatWrapping;
+        grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;
+        grassNormalTexture.wrapS = THREE.RepeatWrapping;
+        grassRoughnessTexture.wrapS = THREE.RepeatWrapping;
+
+        grassColorTexture.wrapT = THREE.RepeatWrapping;
+        grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping;
+        grassNormalTexture.wrapT = THREE.RepeatWrapping;
+        grassRoughnessTexture.wrapT = THREE.RepeatWrapping;
+
         const floor = new THREE.Mesh(
             new THREE.PlaneGeometry(20, 20),
             new THREE.MeshStandardMaterial({
@@ -190,6 +206,19 @@ export default class{
         // fog
         scene.fog = new THREE.Fog('#262837', 1, 15);
 
+
+        /**
+         * Ghosts
+         */
+        const ghost1 = new THREE.PointLight('#f0f', 2, 3);
+        scene.add(ghost1);
+
+        const ghost2 = new THREE.PointLight('#0ff', 2, 3);
+        scene.add(ghost2);
+
+        const ghost3 = new THREE.PointLight('#ff0', 2, 3);
+        scene.add(ghost3);
+
         /**
          * Camera
          */
@@ -216,11 +245,68 @@ export default class{
         // clear color
         renderer.setClearColor('#262837');
 
+        /**
+         * Shadows
+         * */
+        renderer.shadowMap.enabled = true;
+
+        moonLight.castShadow = true;
+        doorLight.castShadow = true;
+        ghost1.castShadow = true;
+        ghost2.castShadow = true;
+        ghost3.castShadow = true;
+
+        walls.castShadow = true;
+        bush1.castShadow = true;
+        bush2.castShadow = true;
+        bush3.castShadow = true;
+        bush4.castShadow = true;
+
+        floor.receiveShadow = true;
+
+        moonLight.shadow.mapSize.width = 256;
+        moonLight.shadow.mapSize.height = 256;
+        moonLight.shadow.camera.far = 15;
+
+        doorLight.shadow.mapSize.width = 256;
+        doorLight.shadow.mapSize.height = 256;
+        doorLight.shadow.camera.far = 7;
+
+        ghost1.shadow.mapSize.width = 256;
+        ghost1.shadow.mapSize.height = 256;
+        ghost1.shadow.camera.far = 7;
+
+        ghost2.shadow.mapSize.width = 256;
+        ghost2.shadow.mapSize.height = 256;
+        ghost2.shadow.camera.far = 7;
+
+        ghost3.shadow.mapSize.width = 256;
+        ghost3.shadow.mapSize.height = 256;
+        ghost3.shadow.camera.far = 7;
+
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
         const clock = new THREE.Clock();
 
         // update the frame
         const render = () => {
             const elapsedTime = clock.getElapsedTime();
+
+            // Ghosts
+            const ghost1Angle = elapsedTime * 0.5;
+            ghost1.position.x = Math.cos(ghost1Angle) * 4;
+            ghost1.position.z = Math.sin(ghost1Angle) * 4;
+            ghost1.position.y = Math.sin(elapsedTime * 3);
+
+            const ghost2Angle = -elapsedTime * 0.32;
+            ghost2.position.x = Math.cos(ghost2Angle) * 5;
+            ghost2.position.z = Math.sin(ghost2Angle) * 5;
+            ghost2.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5);
+
+            const ghost3Angle = -elapsedTime * 0.18;
+            ghost3.position.x = Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
+            ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
+            ghost3.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5);
 
             // update the controls
             controls.update();
