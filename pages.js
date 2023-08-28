@@ -33,6 +33,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Particles'
+            },
+            {
+                title: 'Galaxy Generator'
             }
         ]
     },
