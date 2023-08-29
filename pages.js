@@ -36,6 +36,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Galaxy Generator'
+            },
+            {
+                title: 'Scroll Based Animation'
             }
         ]
     },
