@@ -42,4 +42,13 @@ module.exports = createPagesPrototype([
             }
         ]
     },
+    {
+        title: 'Advanced Techniques',
+        base: 'advanced',
+        pages: [
+            {
+                title: 'Physics'
+            },
+        ]
+    },
 ]);
