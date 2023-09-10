@@ -38,14 +38,6 @@ export default class{
             });
         world.defaultContactMaterial = defaultContactMaterial;
 
-        // sphere
-        const sphereShape = new CANNON.Sphere(0.5);
-        const sphereBody = new CANNON.Body({
-            mass: 1,
-            position: new CANNON.Vec3(0, 3, 0),
-            shape: sphereShape,
-        });
-        world.addBody(sphereBody);
 
         // floor shape
         const floorShape = new CANNON.Plane();
@@ -76,21 +68,6 @@ export default class{
 
         const environmentMapTexture = cubeTextureLoader.load([px, nx, py, ny, pz, nz]);
 
-        /**
-         * Test sphere
-         */
-        const sphere = new THREE.Mesh(
-            new THREE.SphereGeometry(0.5, 32, 32),
-            new THREE.MeshStandardMaterial({
-                metalness: 0.5,
-                roughness: 0.1,
-                envMap: environmentMapTexture,
-                envMapIntensity: 0.5
-            })
-        );
-        sphere.castShadow = true;
-        sphere.position.y = 0.5;
-        scene.add(sphere);
 
         /**
          * Floor
@@ -102,7 +79,8 @@ export default class{
                 metalness: 0.3,
                 roughness: 0.4,
                 envMap: environmentMapTexture,
-                envMapIntensity: 0.5
+                envMapIntensity: 0.5,
+                side: THREE.DoubleSide
             })
         );
         floor.receiveShadow = true;
@@ -157,6 +135,57 @@ export default class{
 
         const cannonDebugger = new CannonDebugger(scene, world, {});
 
+
+        // create sphere
+        const objectsToUpdate = [];
+        const createSphere = (radius, position) => {
+            // Three.js mesh
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(radius, 20, 20),
+                new THREE.MeshStandardMaterial({
+                    metalness: 0.3,
+                    roughness: 0.4,
+                    envMap: environmentMapTexture,
+                    envMapIntensity: 0.5
+                })
+            );
+            mesh.castShadow = true;
+            mesh.position.copy(position);
+            scene.add(mesh);
+
+            // Cannon.js body
+            const shape = new CANNON.Sphere(radius);
+
+            const body = new CANNON.Body({
+                mass: 1,
+                position: new CANNON.Vec3(0, 3, 0),
+                shape: shape,
+                material: defaultMaterial
+            });
+            body.position.copy(position);
+            world.addBody(body);
+
+            // Save in objects to update
+            objectsToUpdate.push({
+                mesh: mesh,
+                body: body
+            });
+        };
+
+        const debugObject = {};
+        debugObject.createSphere = () => {
+            createSphere(
+                Math.random() * 0.5,
+                {
+                    x: (Math.random() - 0.5) * 3,
+                    y: 3,
+                    z: (Math.random() - 0.5) * 3
+                }
+            );
+        };
+        gui.add(debugObject, 'createSphere');
+
+
         // update the frame
         const render = () => {
             const elapsedTime = clock.getElapsedTime();
@@ -165,8 +194,10 @@ export default class{
 
             // update physics world
             world.step(1 / 60, delta, 3);
-            sphere.position.copy(sphereBody.position);
-            console.log(sphereBody.position.y);
+
+            for(const object of objectsToUpdate){
+                object.mesh.position.copy(object.body.position);
+            }
 
             // update the controls
             controls.update();
