@@ -7,7 +7,6 @@ const dirApp = path.join(__dirname, '..', 'app');
 const dirStyles = path.join(__dirname, '..', 'styles');
 const dirShared = path.join(__dirname, '..', 'shared');
 const dirPublic = path.join(__dirname, '..', 'public');
-const dirNodeModules = path.join(__dirname, '..', 'node_modules');
 
 module.exports = {
     entry: [path.join(dirApp, 'index.js'), path.join(dirStyles, 'index.scss')],
@@ -28,7 +27,7 @@ module.exports = {
         rules: [
 
             {
-                test: /\.(png|jpg|gif|jpe?g|svg|woff2?|fnt|webp|mp4)$/,
+                test: /\.(png|jpg|gif|jpe?g|svg|woff2?|fnt|webp|mp4|ogg|mp3|wav)$/,
                 type: 'asset/resource',
                 generator: {
                     filename: '[hash].[ext]',
