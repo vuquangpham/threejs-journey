@@ -271,7 +271,7 @@ export default class{
 
             // update the controls
             controls.update();
-            cannonDebugger.update();
+            // cannonDebugger.update();
 
             // render
             renderer.render(scene, camera);
