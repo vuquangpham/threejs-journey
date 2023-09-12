@@ -12,6 +12,20 @@ import ny from './textures/environmentMaps/0/ny.png';
 import pz from './textures/environmentMaps/0/pz.png';
 import nz from './textures/environmentMaps/0/nz.png';
 
+// music
+import audio from './sounds/hit.mp3';
+
+const hitSound = new Audio(audio);
+
+const playHitSound = (collision) => {
+    const impactStrength = collision.contact.getImpactVelocityAlongNormal();
+    if(impactStrength > 1.5){
+        hitSound.volume = Math.random();
+        hitSound.currentTime = 0;
+        hitSound.play();
+    }
+};
+
 export default class{
     constructor({element}){
         this.element = element;
@@ -170,6 +184,9 @@ export default class{
             body.position.copy(position);
             world.addBody(body);
 
+            // hit sound
+            body.addEventListener('collide', playHitSound);
+
             // Save in objects to update
             objectsToUpdate.push({
                 mesh: mesh,
@@ -217,6 +234,9 @@ export default class{
             });
             body.position.copy(position);
             world.addBody(body);
+
+            // hit sound
+            body.addEventListener('collide', playHitSound);
 
             // Save in objects
             objectsToUpdate.push({mesh, body});
