@@ -49,6 +49,9 @@ module.exports = createPagesPrototype([
             {
                 title: 'Physics'
             },
+            {
+                title: 'Imported Models'
+            }
         ]
     },
 ]);
