@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
+import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
+import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
+
 
 export default class{
     constructor({element}){
@@ -15,6 +18,27 @@ export default class{
 
         // Scene
         const scene = new THREE.Scene();
+
+
+        /**
+         * Models
+         * */
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('/draco/');
+
+        const gltfLoader = new GLTFLoader();
+        gltfLoader.setDRACOLoader(dracoLoader);
+
+        let mixer = null;
+        gltfLoader.load('/models/Fox/glTF/Fox.gltf', (gltf) => {
+
+            mixer = new THREE.AnimationMixer(gltf.scene);
+            const action = mixer.clipAction(gltf.animations[0]);
+            action.play();
+
+            gltf.scene.scale.set(0.025, 0.025, 0.025);
+            scene.add(gltf.scene);
+        });
 
         /**
          * Floor
@@ -111,6 +135,10 @@ export default class{
 
             // Render
             renderer.render(scene, camera);
+
+            if(mixer){
+                mixer.update(deltaTime);
+            }
 
             // Call tick again on the next frame
             window.requestAnimationFrame(tick);
