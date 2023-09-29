@@ -23,6 +23,12 @@ export default class{
             new THREE.SphereGeometry(0.5, 16, 16),
             new THREE.MeshBasicMaterial({color: '#f00'})
         );
+
+        // the raycaster will intersect through 2 points
+        // const object1 = new THREE.Mesh(
+        //     new THREE.TorusGeometry(0.5),
+        //     new THREE.MeshBasicMaterial({color: '#f00'})
+        // )
         object1.position.x = -2;
 
         const object2 = new THREE.Mesh(
@@ -38,6 +44,17 @@ export default class{
 
         scene.add(object1, object2, object3);
 
+        // raycaster
+        const raycaster = new THREE.Raycaster();
+        const rayOrigin = new THREE.Vector3(-3, 0, 0);
+        const rayDirection = new THREE.Vector3(1, 0, 0);
+        rayDirection.normalize();
+        raycaster.set(rayOrigin, rayDirection);
+
+        object1.updateMatrixWorld();
+        object2.updateMatrixWorld();
+        object3.updateMatrixWorld();
+
         // Sizes
         const sizes = {
             width: window.innerWidth,
@@ -46,7 +63,7 @@ export default class{
 
         // camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-        camera.position.z = 2;
+        camera.position.z = 4;
         scene.add(camera);
 
         // controls
@@ -66,6 +83,22 @@ export default class{
         // update the frame
         const render = () => {
             const elapsedTime = clock.getElapsedTime();
+
+            // objects
+            object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5;
+            object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
+            object3.position.y = Math.sin(elapsedTime * 1.3) * 1.5;
+
+            // raycaster
+            const objectToTest = [object1, object2, object3];
+            const intersects = raycaster.intersectObjects(objectToTest);
+
+            // reset color
+            objectToTest.forEach(o => o.material.color.set('#f00'));
+
+            intersects.forEach(i => i.object.material.color.set('#00f'));
+
+            console.log(intersects);
 
             // update the controls
             controls.update();
