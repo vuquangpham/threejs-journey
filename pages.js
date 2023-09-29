@@ -51,6 +51,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Imported Models'
+            },
+            {
+                title: 'Raycaster and Mouse events'
             }
         ]
     },
