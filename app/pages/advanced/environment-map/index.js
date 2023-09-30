@@ -17,11 +17,14 @@ export default class{
         const scene = new THREE.Scene();
 
         /**
-         * Objects
+         * Torus Knot
          */
-            // Material
-        const material = new THREE.MeshStandardMaterial();
-        material.roughness = 0.4;
+        const torusKnot = new THREE.Mesh(
+            new THREE.TorusKnotGeometry(1, 0.4, 100, 16),
+            new THREE.MeshBasicMaterial()
+        );
+        torusKnot.position.y = 4;
+        scene.add(torusKnot);
 
         // Sizes
         const sizes = {
@@ -31,11 +34,12 @@ export default class{
 
         // camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-        camera.position.z = 2;
+        camera.position.set(4, 5, 4);
         scene.add(camera);
 
         // controls
         const controls = new OrbitControls(camera, canvas);
+        controls.target.y = 3.5;
         controls.enableDamping = true;
 
         // render
