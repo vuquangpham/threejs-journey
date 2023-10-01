@@ -56,6 +56,9 @@ module.exports = createPagesPrototype([
                 title: 'Raycaster and Mouse events'
             },
             {
+                title: 'Hamburger with Blender'
+            },
+            {
                 title: 'Environment Map'
             }
         ]
