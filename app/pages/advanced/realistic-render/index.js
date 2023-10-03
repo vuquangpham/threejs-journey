@@ -33,6 +33,9 @@ export default class{
             scene.traverse((child) => {
                 if(child.isMesh && child.material.isMeshStandardMaterial){
                     child.material.envMapIntensity = global.envMapIntensity;
+
+                    child.castShadow = true;
+                    child.receiveShadow = true;
                 }
             });
         };
@@ -109,17 +112,29 @@ export default class{
         /**
          * Directional light
          */
-        const directionalLight = new THREE.DirectionalLight('#fff', 1);
+        const directionalLight = new THREE.DirectionalLight('#fff', 2);
         directionalLight.position.set(3, 7, 6);
-        scene.add(directionalLight);
+        directionalLight.shadow.camera.far = 15;
+        directionalLight.shadow.mapSize.set(1024, 1024);
 
         gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity');
         gui.add(directionalLight.position, 'x').min(-10).max(10).step(0.001).name('lightX');
         gui.add(directionalLight.position, 'y').min(-10).max(10).step(0.001).name('lightY');
         gui.add(directionalLight.position, 'z').min(-10).max(10).step(0.001).name('lightZ');
 
-        const lightHelper = new THREE.DirectionalLightHelper(directionalLight);
-        scene.add(lightHelper);
+        // directional light helper
+        const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+        scene.add(directionalLightHelper);
+
+        // change the position point to the top
+        directionalLight.target.position.set(0, 4, 0);
+        directionalLight.target.updateMatrixWorld();
+
+        // shadow
+        directionalLight.castShadow = true;
+        gui.add(directionalLight, 'castShadow');
+
+        scene.add(directionalLight);
 
         /**
          * Renderer
@@ -148,6 +163,10 @@ export default class{
         // Physically accurate lighting
         renderer.useLegacyLights = false;
         gui.add(renderer, 'useLegacyLights');
+
+        // add the shadow
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
         /**
          * Animate
