@@ -60,6 +60,9 @@ module.exports = createPagesPrototype([
             },
             {
                 title: 'Environment Map'
+            },
+            {
+                title: 'Realistic Render'
             }
         ]
     },
