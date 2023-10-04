@@ -3,6 +3,7 @@ import {OrbitControls} from "three/addons/controls/OrbitControls";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 import GUI from "lil-gui";
 import {RGBELoader} from "three/addons/loaders/RGBELoader";
+import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
 
 export default class{
     constructor({element}){
@@ -15,10 +16,15 @@ export default class{
 
         const gui = new GUI();
         const global = {};
+        gui.add(THREE.ColorManagement, 'enabled');
 
         // loader
         const rgbeLoader = new RGBELoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('/draco/');
+
         const gltfLoader = new GLTFLoader();
+        gltfLoader.setDRACOLoader(dracoLoader);
 
 // Canvas
         const canvas = document.querySelector('canvas#webgl');
@@ -64,15 +70,60 @@ export default class{
          * Models
          */
 // Helmet
-        gltfLoader.load(
-            '/models/FlightHelmet/glTF/FlightHelmet.gltf',
-            (gltf) => {
-                gltf.scene.scale.set(10, 10, 10);
+//         gltfLoader.load('/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+        gltfLoader.load('/models/Hamburger/glTF-Binary/Hamburger.glb', (gltf) => {
+                // gltf.scene.scale.set(10, 10, 10);
+                gltf.scene.scale.set(0.4, 0.4, 0.4);
+                gltf.scene.position.y = 2.5;
                 scene.add(gltf.scene);
-
                 updateAllMaterials();
             }
         );
+
+        // load the texture
+        const textureLoader = new THREE.TextureLoader();
+
+        // floor
+        const floorColorTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg');
+        const floorAOMetalnessRoughnessTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg');
+        const floorNormalTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.png');
+
+        // wall
+        const wallColorTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg');
+        const wallAOMetalnessRoughnessTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg');
+        const wallNormalTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png');
+
+        // change color space
+        wallColorTexture.colorSpace = THREE.SRGBColorSpace;
+        floorColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // load the floor and the wall
+        const floor = new THREE.Mesh(
+            new THREE.PlaneGeometry(8, 8),
+            new THREE.MeshStandardMaterial({
+                aoMap: floorAOMetalnessRoughnessTexture,
+                roughnessMap: floorAOMetalnessRoughnessTexture,
+                metalnessMap: floorAOMetalnessRoughnessTexture,
+                map: floorColorTexture,
+                normalMap: floorNormalTexture
+            })
+        );
+        floor.rotation.x = -Math.PI * 0.5;
+        scene.add(floor);
+
+        // load the wall
+        const wall = new THREE.Mesh(
+            new THREE.PlaneGeometry(8, 8),
+            new THREE.MeshStandardMaterial({
+                aoMap: wallAOMetalnessRoughnessTexture,
+                roughnessMap: wallAOMetalnessRoughnessTexture,
+                metalnessMap: wallAOMetalnessRoughnessTexture,
+                map: wallColorTexture,
+                normalMap: wallNormalTexture
+            })
+        );
+        wall.position.set(0, 4, -4);
+        scene.add(wall);
 
         /**
          * Sizes
@@ -133,6 +184,13 @@ export default class{
         // shadow
         directionalLight.castShadow = true;
         gui.add(directionalLight, 'castShadow');
+
+        // avoid the shadow acne
+        gui.add(directionalLight.shadow, 'normalBias').min(-0.05).max(0.05).step(0.001);
+        gui.add(directionalLight.shadow, 'bias').min(-0.05).max(0.05).step(0.001);
+
+        directionalLight.shadow.normalBias = 0.027;
+        directionalLight.shadow.bias = -0.004;
 
         scene.add(directionalLight);
 
