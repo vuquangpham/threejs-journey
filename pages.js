@@ -66,4 +66,13 @@ module.exports = createPagesPrototype([
             }
         ]
     },
+    {
+        title: 'Shaders',
+        base: 'shaders',
+        pages: [
+            {
+                title: 'Shaders'
+            },
+        ]
+    },
 ]);
