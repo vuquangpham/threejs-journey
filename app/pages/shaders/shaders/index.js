@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
 
+import vertexGLSL from './vertex.glsl';
+import fragmentGLSL from './fragment.glsl';
+
 export default class{
     constructor({element}){
         this.element = element;
@@ -17,9 +20,18 @@ export default class{
         /**
          * Objects
          */
-            // Material
-        const material = new THREE.MeshStandardMaterial();
-        material.roughness = 0.4;
+            // geometry
+        const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
+
+        // material
+        const material = new THREE.RawShaderMaterial({
+            vertexShader: vertexGLSL,
+            fragmentShader: fragmentGLSL
+        });
+
+        // mesh
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
 
         // Sizes
         const sizes = {
