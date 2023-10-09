@@ -73,6 +73,9 @@ module.exports = createPagesPrototype([
             {
                 title: 'Shaders'
             },
+            {
+                title: 'Shader Pattern'
+            }
         ]
     },
 ]);
