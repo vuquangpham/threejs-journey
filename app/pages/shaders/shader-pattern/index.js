@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
 
+import vertexGLSL from './vertex.glsl';
+import fragmentGLSL from './fragment.glsl';
+import GUI from "lil-gui";
+
 export default class{
     constructor({element}){
         this.element = element;
@@ -11,15 +15,30 @@ export default class{
         // canvas
         const canvas = document.querySelector('canvas#webgl');
 
+        // gui
+        const gui = new GUI();
+
         // scene
         const scene = new THREE.Scene();
 
         /**
          * Objects
          */
-            // Material
-        const material = new THREE.MeshStandardMaterial();
-        material.roughness = 0.4;
+            // geometry
+        const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+        console.log(geometry.attributes.uv);
+
+        // material
+        const material = new THREE.ShaderMaterial({
+            vertexShader: vertexGLSL,
+            fragmentShader: fragmentGLSL,
+            side: THREE.DoubleSide,
+        });
+
+        // mesh
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.set(1.5, 1.5, 1.5);
+        scene.add(mesh);
 
         // Sizes
         const sizes = {
@@ -42,7 +61,6 @@ export default class{
         });
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
         const clock = new THREE.Clock();
 
