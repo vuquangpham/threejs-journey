@@ -51,14 +51,13 @@ export default class{
             side: THREE.DoubleSide,
             // wireframe: true
             uniforms: {
-                uFrequency: {value: new THREE.Vector2(10.0, 15.0)},
+                uFrequency: {value: 10.0},
                 uTimeLapse: {value: 0},
                 uTexture: {value: flagTexture}
             }
         });
 
-        gui.add(material.uniforms.uFrequency.value, 'x', 0, 50, 0.01);
-        gui.add(material.uniforms.uFrequency.value, 'y', 0, 50, 0.01);
+        gui.add(material.uniforms.uFrequency, 'value', 0, 50, 0.01);
 
         // mesh
         const mesh = new THREE.Mesh(geometry, material);
