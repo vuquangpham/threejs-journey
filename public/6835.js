@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkthreejs_journey=self.webpackChunkthreejs_journey||[]).push([[6835],{6835:(e,s,p)=>{e.exports=p.p+"5e623adfe293d8e8f24a..png"}}]);
