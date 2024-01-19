@@ -11,6 +11,9 @@
     "start": "concurrently --kill-others \"npm run backend:dev\" \"npm run frontend:dev\"",
     "build": "npm run frontend:build && npm run backend:build"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuquangpham/threejs-journey.git"
