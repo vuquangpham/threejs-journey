@@ -11,8 +11,6 @@ module.exports = merge(common, {
       writeToDisk: true,
     },
   },
-  infrastructureLogging: { level: "error" },
-  stats: "minimal",
 
   module: {
     rules: [
