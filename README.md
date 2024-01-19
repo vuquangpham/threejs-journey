@@ -2,6 +2,10 @@
 
 > Save my learning journey 👀
 
+## URLS
+
+https://threejs-journey-rho.vercel.app/
+
 ## Deployment
 
 Run `./public` in dev mode
@@ -10,7 +14,7 @@ Run `./public` in dev mode
 npm start
 ```
 
-Build files from `./src` and `./public` to `./dist` for production and run in production mode
+Build files from `./app` to `./public` for production and run in production mode
 
 ```shell
 npm run build
