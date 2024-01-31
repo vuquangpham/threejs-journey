@@ -22,7 +22,7 @@ export default class {
     const scene = new THREE.Scene();
 
     // debug GUI
-    const 
+    const gui = new GUI();
 
     /**
      * Objects
