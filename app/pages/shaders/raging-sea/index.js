@@ -1,83 +1,111 @@
-import * as THREE from 'three';
-import {OrbitControls} from "three/addons/controls/OrbitControls";
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls";
 
-export default class{
-    constructor({element}){
-        this.element = element;
-        this.init();
-    }
+// shaders
+import fragmentShader from "./fragment.glsl";
+import vertexShader from "./vertex.glsl";
 
-    init(){
-        // canvas
-        const canvas = document.querySelector('canvas#webgl');
+// LIL Gui
+import GUI from "lil-gui";
 
-        // scene
-        const scene = new THREE.Scene();
+export default class {
+  constructor({ element }) {
+    this.element = element;
+    this.init();
+  }
 
-        /**
-         * Objects
-         */
-            // Material
-        const material = new THREE.MeshStandardMaterial();
-        material.roughness = 0.4;
+  init() {
+    // canvas
+    const canvas = document.querySelector("canvas#webgl");
 
-        // Sizes
-        const sizes = {
-            width: window.innerWidth,
-            height: window.innerHeight
-        };
+    // scene
+    const scene = new THREE.Scene();
 
-        // camera
-        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-        camera.position.z = 2;
-        scene.add(camera);
+    // debug GUI
+    const 
 
-        // controls
-        const controls = new OrbitControls(camera, canvas);
-        controls.enableDamping = true;
+    /**
+     * Objects
+     */
 
-        // render
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas
-        });
-        renderer.setSize(sizes.width, sizes.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+    // water geometry
+    const waterGeometry = new THREE.PlaneGeometry(2, 2, 128, 128);
 
-        const clock = new THREE.Clock();
+    // material
+    const waterMaterial = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      side: THREE.DoubleSide,
+    });
 
-        // update the frame
-        const render = () => {
-            const elapsedTime = clock.getElapsedTime();
+    // mesh
+    const mesh = new THREE.Mesh(waterGeometry, waterMaterial);
+    mesh.rotation.x = -Math.PI * 0.5;
+    scene.add(mesh);
 
-            // update the controls
-            controls.update();
+    // Sizes
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
 
-            // render
-            renderer.render(scene, camera);
+    // camera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      sizes.width / sizes.height,
+      0.1,
+      100
+    );
+    camera.position.z = 2;
+    camera.position.y = 1.5;
+    scene.add(camera);
 
-            // call on the next frame
-            window.requestAnimationFrame(render);
-        };
-        render();
+    // controls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
 
-        // handle resize
-        window.addEventListener('resize', () => {
-            sizes.width = window.innerWidth;
-            sizes.height = window.innerHeight;
+    // render
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+    });
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
-            // update the camera
-            camera.aspect = sizes.width / sizes.height;
-            camera.updateProjectionMatrix();
+    const clock = new THREE.Clock();
 
-            // update the render
-            renderer.setSize(sizes.width, sizes.height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        });
-    }
+    // update the frame
+    const render = () => {
+      const elapsedTime = clock.getElapsedTime();
 
-    // for destroy this script when navigating between each page
-    destroy(){
-        console.log('destroyed', this);
-    }
+      // update the controls
+      controls.update();
+
+      // render
+      renderer.render(scene, camera);
+
+      // call on the next frame
+      window.requestAnimationFrame(render);
+    };
+    render();
+
+    // handle resize
+    window.addEventListener("resize", () => {
+      sizes.width = window.innerWidth;
+      sizes.height = window.innerHeight;
+
+      // update the camera
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+
+      // update the render
+      renderer.setSize(sizes.width, sizes.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+  }
+
+  // for destroy this script when navigating between each page
+  destroy() {
+    console.log("destroyed", this);
+  }
 }
