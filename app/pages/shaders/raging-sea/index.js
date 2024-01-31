@@ -35,8 +35,46 @@ export default class {
     const waterMaterial = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
+
+      uniforms: {
+        uBigWavesElevation: { value: 0.2 },
+        uBigWavesFrequency: { value: new THREE.Vector2(4.0, 1.5) },
+
+        uTime: { value: 0 },
+        uBigWavesSpeed: { value: 0.75 },
+      },
+
       side: THREE.DoubleSide,
     });
+
+    // add to GUI
+    gui
+      .add(waterMaterial.uniforms.uBigWavesElevation, "value")
+      .min(0)
+      .max(1)
+      .step(0.001);
+
+    // frequency
+    gui
+      .add(waterMaterial.uniforms.uBigWavesFrequency.value, "x")
+      .min(0)
+      .max(10)
+      .step(0.001)
+      .name("uBigWavesFrequencyX");
+    gui
+      .add(waterMaterial.uniforms.uBigWavesFrequency.value, "y")
+      .min(0)
+      .max(10)
+      .step(0.001)
+      .name("uBigWavesFrequencyY");
+
+    // waves speed
+    gui
+      .add(waterMaterial.uniforms.uBigWavesSpeed, "value")
+      .min(0)
+      .max(4)
+      .step(0.001)
+      .name("uBigWavesSpeed");
 
     // mesh
     const mesh = new THREE.Mesh(waterGeometry, waterMaterial);
@@ -77,6 +115,9 @@ export default class {
     // update the frame
     const render = () => {
       const elapsedTime = clock.getElapsedTime();
+
+      // update the time
+      waterMaterial.uniforms.uTime.value = elapsedTime;
 
       // update the controls
       controls.update();
