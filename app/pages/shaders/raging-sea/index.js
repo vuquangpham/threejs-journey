@@ -23,6 +23,11 @@ export default class {
 
     // debug GUI
     const gui = new GUI();
+    const debugObject = {};
+
+    // color
+    debugObject.depthColor = "#247bae";
+    debugObject.surfaceColor = "#9bd8ff";
 
     /**
      * Objects
@@ -42,6 +47,9 @@ export default class {
 
         uTime: { value: 0 },
         uBigWavesSpeed: { value: 0.75 },
+
+        uDepthColor: { value: new THREE.Color(debugObject.depthColor) },
+        uSurfaceColor: { value: new THREE.Color(debugObject.surfaceColor) },
       },
 
       side: THREE.DoubleSide,
@@ -52,7 +60,8 @@ export default class {
       .add(waterMaterial.uniforms.uBigWavesElevation, "value")
       .min(0)
       .max(1)
-      .step(0.001);
+      .step(0.001)
+      .name("uBigWavesElevation");
 
     // frequency
     gui
@@ -75,6 +84,25 @@ export default class {
       .max(4)
       .step(0.001)
       .name("uBigWavesSpeed");
+
+    // color
+    gui
+      .addColor(debugObject, "depthColor")
+      .name("depthColor")
+      .onChange((_) => {
+        waterMaterial.uniforms.uDepthColor.value = new THREE.Color(
+          debugObject.depthColor
+        );
+      });
+    gui
+      .addColor(debugObject, "surfaceColor")
+      .name("surfaceColor")
+      .onChange((_) => {
+        console.log("change");
+        waterMaterial.uniforms.uSurfaceColor.value = new THREE.Color(
+          debugObject.surfaceColor
+        );
+      });
 
     // mesh
     const mesh = new THREE.Mesh(waterGeometry, waterMaterial);
