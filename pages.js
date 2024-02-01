@@ -79,6 +79,9 @@ module.exports = createPagesPrototype([
       {
         title: "Raging Sea",
       },
+      {
+        title: "Animated Galaxy",
+      },
     ],
   },
 ]);
