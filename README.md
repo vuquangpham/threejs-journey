@@ -4,7 +4,7 @@
 
 ## URLS
 
-https://threejs-journey-rho.vercel.app/
+[https://threejs-journey-rho.vercel.app/](https://threejs-journey-ruddy.vercel.app/)
 
 ## Deployment
 
