@@ -57,6 +57,7 @@ export default class {
       const positions = new Float32Array(parameters.count * 3);
       const colors = new Float32Array(parameters.count * 3);
       const scales = new Float32Array(parameters.count * 1);
+      const randomness = new Float32Array(parameters.count * 3);
 
       const insideColor = new THREE.Color(parameters.insideColor);
       const outsideColor = new THREE.Color(parameters.outsideColor);
@@ -70,6 +71,11 @@ export default class {
         const branchAngle =
           ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
 
+        positions[i3] = Math.cos(branchAngle) * radius;
+        positions[i3 + 1] = 0;
+        positions[i3 + 2] = Math.sin(branchAngle) * radius;
+
+        // randomness
         const randomX =
           Math.pow(Math.random(), parameters.randomnessPower) *
           (Math.random() < 0.5 ? 1 : -1) *
@@ -86,9 +92,9 @@ export default class {
           parameters.randomness *
           radius;
 
-        positions[i3] = Math.cos(branchAngle) * radius + randomX;
-        positions[i3 + 1] = randomY;
-        positions[i3 + 2] = Math.sin(branchAngle) * radius + randomZ;
+        randomness[i3] = randomX;
+        randomness[i3 + 1] = randomY;
+        randomness[i3 + 2] = randomZ;
 
         // Color
         const mixedColor = insideColor.clone();
@@ -106,7 +112,11 @@ export default class {
         new THREE.BufferAttribute(positions, 3)
       );
       geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-      geometry.setAttribute("scale", new THREE.BufferAttribute(scales, 1));
+      geometry.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
+      geometry.setAttribute(
+        "aRandomness",
+        new THREE.BufferAttribute(randomness, 3)
+      );
 
       /**
        * Material
@@ -120,7 +130,8 @@ export default class {
         vertexShader,
 
         uniforms: {
-          uSize: { value: 2 },
+          uSize: { value: 30.0 * renderer.getPixelRatio() },
+          uTime: { value: 0 },
         },
       });
 
@@ -130,8 +141,6 @@ export default class {
       points = new THREE.Points(geometry, material);
       scene.add(points);
     };
-
-    generateGalaxy();
 
     gui
       .add(parameters, "count")
@@ -166,12 +175,6 @@ export default class {
     gui.addColor(parameters, "insideColor").onFinishChange(generateGalaxy);
     gui.addColor(parameters, "outsideColor").onFinishChange(generateGalaxy);
 
-    gui
-      .add(material.uniforms.uSize, "value")
-      .min(0)
-      .max(10)
-      .step(1)
-      .name("pointSize");
     /**
      * Sizes
      */
@@ -222,6 +225,15 @@ export default class {
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+    generateGalaxy();
+
+    gui
+      .add(material.uniforms.uSize, "value")
+      .min(0)
+      .max(10)
+      .step(1)
+      .name("pointSize");
+
     /**
      * Animate
      */
@@ -229,6 +241,7 @@ export default class {
 
     const tick = () => {
       const elapsedTime = clock.getElapsedTime();
+      material.uniforms.uTime.value = elapsedTime;
 
       // Update controls
       controls.update();
